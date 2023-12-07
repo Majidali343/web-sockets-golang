@@ -12,7 +12,7 @@ import (
 
 var (
 	SecretKey       = []byte("Majidali")
-	accessTokenExp  = 1 * time.Minute
+	accessTokenExp  = 7 * 24 * time.Minute
 	refreshTokenExp = 7 * 24 * time.Hour
 )
 

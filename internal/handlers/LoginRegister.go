@@ -2,6 +2,7 @@ package chat
 
 import (
 	"net/http"
+
 	dbconnect "github.com/Majidali343/web-sockets-golang/internal/db"
 
 	"github.com/gin-gonic/gin"
@@ -26,8 +27,7 @@ type MyUser struct {
 }
 
 type logeduser struct {
-	LoggedUserID uint   `json:"loggeduserid"`
-	Adminemail   string `json:"email" `
+	Useremail string `json:"email" `
 }
 
 var LogedUser logeduser
@@ -103,9 +103,9 @@ func Login(c *gin.Context) {
 		return
 	}
 
-	LogedUser.LoggedUserID = dbUser.ID
+	LogedUser.Useremail = dbUser.Email
 
 	// Respond with user ID and token
-	c.JSON(http.StatusOK, gin.H{"user_id": dbUser.ID, "access_token": accessToken,
+	c.JSON(http.StatusOK, gin.H{"user_email": dbUser.Email, "access_token": accessToken,
 		"refresh_token": refreshToken})
 }
