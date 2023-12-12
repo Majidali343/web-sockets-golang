@@ -22,10 +22,6 @@ var upgrader = websocket.Upgrader{
 	},
 }
 
-func HomePage(c *gin.Context) {
-	w := c.Writer
-	fmt.Fprintf(w, "Chat room is working!")
-}
 
 func HandleConnections(c *gin.Context) {
 	w := c.Writer

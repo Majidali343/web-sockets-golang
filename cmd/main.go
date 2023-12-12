@@ -14,15 +14,12 @@ import (
 func SetupRouter() *gin.Engine {
 	r := gin.Default()
 
-	r.GET("/", chating.HomePage)
 	r.GET("/ws", chating.HandleConnections)
 
 	go chating.HandleMessages()
 
-	r.GET("/test", func(c *gin.Context) {
-		c.JSON(200, gin.H{"message": "hello"})
-	})
-
+	r.POST("/createroom", tokens.AuthMiddleware(), chating.CreateRom)
+	r.POST("/getroom", tokens.AuthMiddleware(), chating.GetRoomsByUserEmail)
 	r.POST("/login", chating.Login)
 	r.POST("/register", chating.Register)
 	r.POST("/refresh", tokens.RefreshTokenHandler)
