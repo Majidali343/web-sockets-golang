@@ -21,7 +21,7 @@ func SetupRouter() *gin.Engine {
 	// go chating.HandleroomMessages()
 
 	r.POST("/createroom", tokens.AuthMiddleware(), chating.CreateRom)
-	r.POST("/getroom", tokens.AuthMiddleware(), chating.GetRoomsByUserEmail)
+	r.GET("/getroom", chating.GetRoomsByUserEmail)
 	r.POST("/login", chating.Login)
 	r.POST("/register", chating.Register)
 	r.POST("/refresh", tokens.RefreshTokenHandler)

@@ -10,6 +10,12 @@ func Dbconnection() *gorm.DB {
 	var db *gorm.DB
 	var err error
 
+	// godotenv.Load()
+	// host := os.Getenv("DB_HOST")
+	// username := os.Getenv("DB_USER")
+	// password := os.Getenv("DB_PASSWORD")
+	// dbName := os.Getenv("DB_NAME")
+
 	host := "localhost"
 	username := "postgres"
 	password := "Majid"
