@@ -11,6 +11,7 @@ import (
 type Message struct {
 	Message  string `json:"message"`
 	Receiver string `json:"receiver"`
+	RoomName string `json:"roomname"`
 }
 
 var clients = make(map[*websocket.Conn]string)
@@ -65,6 +66,14 @@ func HandleMessages() {
 			fmt.Println(clientUsername)
 			fmt.Println(msg.Receiver)
 			if clientUsername == msg.Receiver {
+				err := client.WriteJSON(msg)
+				if err != nil {
+					fmt.Println(err)
+					client.Close()
+					delete(clients, client)
+				}
+			} else if clientUsername == msg.RoomName {
+
 				err := client.WriteJSON(msg)
 				if err != nil {
 					fmt.Println(err)
