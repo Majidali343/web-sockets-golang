@@ -2,34 +2,20 @@ package chat
 
 import (
 	"fmt"
-	"net/http"
 
 	"github.com/gin-gonic/gin"
 	"github.com/gorilla/websocket"
 )
 
-type Message struct {
-	Message  string `json:"message"`
-	Receiver string `json:"receiver"`
-}
+var Roomclients = make(map[*websocket.Conn]string)
+var Roombroadcast = make(chan Message)
 
-var clients = make(map[*websocket.Conn]string)
-var broadcast = make(chan Message)
-
-var upgrader = websocket.Upgrader{
-	CheckOrigin: func(r *http.Request) bool {
-		return true
-	},
-}
-
-
-func HandleConnections(c *gin.Context) {
+func HandleroomConnections(c *gin.Context) {
 	w := c.Writer
 	r := c.Request
 
-	Useremail := c.Query("email")
+	Roomname := c.Query("roomname")
 
-	fmt.Println(Useremail)
 	conn, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
 		fmt.Println(err)
@@ -37,7 +23,7 @@ func HandleConnections(c *gin.Context) {
 	}
 	defer conn.Close()
 
-	clients[conn] = Useremail
+	clients[conn] = Roomname
 
 	for {
 		var msg Message
@@ -50,9 +36,10 @@ func HandleConnections(c *gin.Context) {
 
 		broadcast <- msg
 	}
+
 }
 
-func HandleMessages() {
+func HandleroomMessages() {
 	for {
 		msg := <-broadcast
 
