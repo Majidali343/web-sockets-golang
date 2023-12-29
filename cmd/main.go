@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"net/http"
 
 	chating "github.com/Majidali343/web-sockets-golang/internal/handlers"
 
@@ -25,6 +26,8 @@ func SetupRouter() *gin.Engine {
 	r.POST("/login", chating.Login)
 	r.POST("/register", chating.Register)
 	r.POST("/refresh", tokens.RefreshTokenHandler)
+	r.GET("/health", healthHandler)
+	r.GET("/readiness", readinessHandler)
 
 	return r
 }
@@ -35,4 +38,16 @@ func main() {
 
 	fmt.Println("Server started on :8080")
 
+}
+
+func healthHandler(c *gin.Context) {
+	c.JSON(http.StatusOK, gin.H{
+		"status": "OK",
+	})
+}
+
+func readinessHandler(c *gin.Context) {
+	c.JSON(http.StatusOK, gin.H{
+		"status": "OK",
+	})
 }
