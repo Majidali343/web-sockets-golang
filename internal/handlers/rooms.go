@@ -51,7 +51,7 @@ func GetRoomsByUserEmail(c *gin.Context) {
 	db := dbconnect.Dbconnection()
 	defer db.Close()
 
-	userEmail := LogedUser.Useremail
+	userEmail := c.Query("email")
 
 	if userEmail == "" {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "User email is required"})
